@@ -7,6 +7,7 @@ public enum TemplateState
 }
 
 [RequireComponent(typeof(Camera))]
+[RequireComponent(typeof(Indexer))]
 public class TemplateScript : AnimatedStateMachine<TemplateState>
 {
     private readonly Dictionary<TemplateState, float> _autoSkipStates = new()
@@ -15,6 +16,8 @@ public class TemplateScript : AnimatedStateMachine<TemplateState>
     protected override Dictionary<TemplateState, float> AutoSkipStates => _autoSkipStates;
 
     private Fading DefaultFading => new(1f, new Easing(Easing.Type.Sine, Easing.IO.InOut));
+
+    private Indexer I;
     
     protected override void OnEnterState(TemplateState state)
     {
@@ -35,7 +38,7 @@ public class TemplateScript : AnimatedStateMachine<TemplateState>
 
     private void Awake()
     {
-        
+        I = GetComponent<Indexer>();
     }
 
     protected override void OnStart()

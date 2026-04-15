@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 #nullable enable
 
@@ -29,7 +28,7 @@ public abstract class AnimatedStateMachine<T> : MonoBehaviour where T : Enum
     public T CurrentState { get => _currentState; set => SetState(value); }
     public int StateCount => Enum.GetValues(typeof(T)).Length;
 
-    private Notes notes;
+    private Notes notes = null!;
 
     public delegate void FadeFunc(float fadingValue, bool isExit);
     private struct FadeData
