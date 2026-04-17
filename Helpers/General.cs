@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public static class Helpers
+public static class General
 {
     public static float Mod(float x, float m)
     {
