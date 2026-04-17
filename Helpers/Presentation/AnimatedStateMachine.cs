@@ -39,7 +39,7 @@ public abstract class AnimatedStateMachine<T> : MonoBehaviour where T : Enum
         public bool reverse;
     }
     private readonly HashSet<FadeData> _singleFades = new();
-    protected void Fade(Fading fading, FadeFunc func, bool runWhileOnDelay=true, bool reverse=false)
+    public void Fade(Fading fading, FadeFunc func, bool runWhileOnDelay=true, bool reverse=false)
     {
         FadeData newData = new()
         {
