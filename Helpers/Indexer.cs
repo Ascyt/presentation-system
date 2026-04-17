@@ -18,10 +18,21 @@ public class Indexer : MonoBehaviour
         ReloadIndex();
     }
 
+    /// <summary>
+    /// Reload all presentation objects and their initial positions from the entry point. 
+    /// </summary>
     public void ReloadIndex()
     {
         root = GetNodeOf(entry.transform);
     }
+    /// <summary>
+    /// Reset all presentation objects to their initial values (active, position, scale, rotation, color) from when <see cref="ReloadIndex"/> was last called.
+    /// </summary>
+    public void ResetToInitial() 
+    {
+        ResetNodeToInitial(root);
+    }
+
     private PresentationObject GetNodeOf(Transform t)
     {
         string name = t.name.Trim().ToLower();
@@ -40,7 +51,29 @@ public class Indexer : MonoBehaviour
             name = name, 
             obj = t.gameObject, 
             children = children, 
-            spriteRenderer = spriteRenderer 
+            spriteRenderer = spriteRenderer,
+
+            initialIsActive = t.gameObject.activeSelf,
+            initialPosition = t.localPosition,
+            initialScale = t.localScale,
+            initialRotation = t.localRotation,
+            initialColor = spriteRenderer != null ? spriteRenderer.color : null
         };
+    }
+    private void ResetNodeToInitial(PresentationObject node)
+    {
+        node.obj.SetActive(node.initialIsActive);
+        node.transform.localPosition = node.initialPosition;
+        node.transform.localScale = node.initialScale;
+        node.transform.localRotation = node.initialRotation;
+        if (node.spriteRenderer != null && node.initialColor.HasValue)
+        {
+            node.spriteRenderer.color = node.initialColor.Value;
+        }
+
+        foreach (PresentationObject child in node.children.Values)
+        {
+            ResetNodeToInitial(child);
+        }
     }
 }

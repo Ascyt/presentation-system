@@ -6,7 +6,6 @@ public enum TemplateState
     Start
 }
 
-[RequireComponent(typeof(Camera))]
 [RequireComponent(typeof(Indexer))]
 public class TemplateScript : AnimatedStateMachine<TemplateState>
 {
@@ -43,6 +42,6 @@ public class TemplateScript : AnimatedStateMachine<TemplateState>
 
     protected override void OnStart()
     {
-
+        I.ResetToInitial();
     }
 }

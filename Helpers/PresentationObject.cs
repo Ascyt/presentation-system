@@ -12,6 +12,12 @@ public struct PresentationObject
     public Dictionary<string, PresentationObject> children;
     public SpriteRenderer? spriteRenderer;
 
+    public bool initialIsActive;
+    public Vector3 initialPosition;
+    public Vector3 initialScale;
+    public Quaternion initialRotation;
+    public Color? initialColor;
+
     public readonly PresentationObject this[string name]
     {
         get
