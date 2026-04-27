@@ -24,13 +24,14 @@ public static class Effects
             }
             if (color.HasValue)
             {
-                try
+                Color c = Color.Lerp(color.Value.Item1, color.Value.Item2, fadingValue);
+                if (obj.spriteRenderer != null)
                 {
-                    obj.spriteRenderer!.color = Color.Lerp(color.Value.Item1, color.Value.Item2, fadingValue);
+                    obj.spriteRenderer.color = c;
                 }
-                catch (NullReferenceException)
+                else if (obj.textMeshPro != null)
                 {
-                    Debug.LogWarning($"Trying to fade color of `{obj.name}`, but it has no SpriteRenderer.");
+                    obj.textMeshPro.color = c;
                 }
             }
         });
@@ -42,7 +43,8 @@ public static class Effects
         Vector3 startPosition = obj.transform.localPosition;
         Vector3 startScale = obj.transform.localScale;
         Quaternion startRotation = obj.transform.localRotation;
-        Color? startColor = obj.spriteRenderer != null ? obj.spriteRenderer.color : null;
+        Color? startColor = obj.spriteRenderer != null ? obj.spriteRenderer.color : 
+            obj.textMeshPro != null ? obj.textMeshPro.color : null;
 
         FadeFromTo(machine, fading, obj, 
             position.HasValue ? (startPosition, position.Value) : null, 

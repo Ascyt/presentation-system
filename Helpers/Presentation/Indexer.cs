@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 #nullable enable
@@ -46,18 +47,25 @@ public class Indexer : MonoBehaviour
         }
 
         t.TryGetComponent<SpriteRenderer>(out SpriteRenderer? spriteRenderer);
+        t.TryGetComponent<ParticleSystem>(out ParticleSystem? particleSystem);
+        t.TryGetComponent<TextMeshPro>(out TextMeshPro? textMeshPro);
         return new PresentationObject() 
         {
             name = name, 
             obj = t.gameObject, 
             children = children, 
             spriteRenderer = spriteRenderer,
+            particleSystem = particleSystem,
+            textMeshPro = textMeshPro,
 
             initialIsActive = t.gameObject.activeSelf,
             initialPosition = t.localPosition,
             initialScale = t.localScale,
             initialRotation = t.localRotation,
-            initialColor = spriteRenderer != null ? spriteRenderer.color : null
+            initialColor = spriteRenderer != null ? spriteRenderer.color : 
+                textMeshPro != null ? textMeshPro.color : null,
+            initialParticleSystemIsPlaying = particleSystem != null ? particleSystem.isPlaying : null,
+            initialTextMeshProText = textMeshPro != null ? textMeshPro.text : null
         };
     }
     private void ResetNodeToInitial(PresentationObject node)
@@ -69,6 +77,23 @@ public class Indexer : MonoBehaviour
         if (node.spriteRenderer != null && node.initialColor.HasValue)
         {
             node.spriteRenderer.color = node.initialColor.Value;
+        }
+        if (node.particleSystem != null)
+        {
+            node.particleSystem.Clear();
+            if (node.initialParticleSystemIsPlaying == true)
+                node.particleSystem.Play();
+            else
+                node.particleSystem.Stop();
+        }
+        if (node.textMeshPro != null && node.initialTextMeshProText != null)
+        {
+            node.textMeshPro.text = node.initialTextMeshProText;
+
+            if (node.initialColor.HasValue)
+            {
+                node.textMeshPro.color = node.initialColor.Value;
+            }
         }
 
         foreach (PresentationObject child in node.children.Values)

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 #nullable enable
@@ -11,12 +12,16 @@ public struct PresentationObject
     public readonly Transform transform => obj.transform;
     public Dictionary<string, PresentationObject> children;
     public SpriteRenderer? spriteRenderer;
+    public ParticleSystem? particleSystem;
+    public TextMeshPro? textMeshPro;
 
     public bool initialIsActive;
     public Vector3 initialPosition;
     public Vector3 initialScale;
     public Quaternion initialRotation;
     public Color? initialColor;
+    public bool? initialParticleSystemIsPlaying;
+    public string? initialTextMeshProText;
 
     public readonly PresentationObject this[string name]
     {
